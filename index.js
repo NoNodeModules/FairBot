@@ -1,14 +1,14 @@
 const Discord = require('discord.js')
 const bot = new Discord.Client()
 const TOKEN = 'ODQ5MzYzMDE5NDA5MzkxNjY4.YLaE9A.3tFa5Nm61Zj4fq6Go_5f0BJ3dcQ'
-const prefix = 't!'
+const prefix = '!'
 
 bot.on('ready', () => {
     console.log('Der Bot ist nun Online!')
 
     bot.user.setPresence({
         activity: {
-            name: 't!help',
+            name: '!help',
             type: 'PLAYING',
         }
     })
@@ -18,9 +18,9 @@ bot.on('message', message => {
     let parts = message.content.split(" ");
 
     if(parts[0] == 'help') {
-        message.channel.send('**Hier meine Befehle**\n**t!clear**/**t!purge** - Löscht bis zu 100 Nachrichten\n**t!member** - Sagt dir, wieviele Mitglieder der Server hat, auf dem du dich befindest.\n**t!owner** - Sagt dir, wer der die Eigentumsrechte von einem Server hat.\n**t!userinfo <@>** - Damit kannst du dir die Benutzerinfo von dir oder jmd anderes anzeigen lassen')
+        message.channel.send('**Hier meine Befehle**\n**!clear**/**!purge** - Löscht bis zu 100 Nachrichten\n**!member** - Sagt dir, wieviele Mitglieder der Server hat, auf dem du dich befindest.\n**t!owner** - Sagt dir, wer der die Eigentumsrechte von einem Server hat.\n**t!userinfo <@>** - Damit kannst du dir die Benutzerinfo von dir oder jmd anderes anzeigen lassen')
     }
-    else if(parts[0] == 't!clear' || parts[0] == 't!purge') {
+    else if(parts[0] == '!clear' || parts[0] == 't!purge') {
         if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send('Du brauchst die Berechtigung, Nachrichten zu löschen!')
         if(!parts[1]) return message.channel.send('Du musst angeben, wieviele Nachrichten du löschen möchtest!')
         if(isNaN(parts[1])) return message.channel.send('Die Angabe, wieviele Nachrichten du löschen möchtest, muss eine Zahl sein!')
@@ -29,13 +29,13 @@ bot.on('message', message => {
         message.channel.bulkDelete(parts[1])
         message.channel.send(`Ich habe erfolgreich **${parts[1]}** Nachrichten gelöscht!`).then(m => m.delete({timeout: 3000}))
     }
-    else if(parts[0] == 't!member') {
+    else if(parts[0] == '!member') {
         message.channel.send(`Der **${message.guild.name}**-Server hat gerade **${message.guild.members.cache.filter(m => m.user.bot).size}** Mitglieder!`)
     }
-    else if(parts[0] == 't!owner') {
+    else if(parts[0] == '!owner') {
         message.channel.send(`Der Owner vom **${message.guild.name}**-Server ist **${message.guild.owner.user.tag}**`)
     }
-    else if(parts[0] == 't!userinfo') {
+    else if(parts[0] == '!userinfo') {
 
         const guild = message.guild
         const usr = message.mentions.users.first() || message.author
