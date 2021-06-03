@@ -30,10 +30,10 @@ bot.on('message', message => {
         message.channel.send(`Ich habe erfolgreich **${parts[1]}** Nachrichten gelöscht!`).then(m => m.delete({timeout: 3000}))
     }
     else if(parts[0] == '!member') {
-        message.channel.send(`Der **${message.guild.name}**-Server hat gerade **${message.guild.members.cache.filter(m => m.user.bot).size}** Mitglieder!`)
+        message.channel.send(`Derzeit sind auf **${message.guild.name}** **${message.guild.members.cache.filter(m => m.user.bot).size}** Mitglieder online!`)
     }
     else if(parts[0] == '!owner') {
-        message.channel.send(`Der Owner vom **${message.guild.name}**-Server ist **${message.guild.owner.user.tag}**`)
+        message.channel.send(`Der Owner von **${message.guild.name}**-Server ist **${message.guild.owner.user.tag}**`)
     }
     else if(parts[0] == '!userinfo') {
 
