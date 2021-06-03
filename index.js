@@ -17,10 +17,10 @@ bot.on('ready', () => {
 bot.on('message', message => {
     let parts = message.content.split(" ");
 
-    if(parts[0] == 'help') {
+    if(parts[0] == '!help') {
         message.channel.send('**Hier meine Befehle**\n**!clear**/**!purge** - Löscht bis zu 100 Nachrichten\n**!member** - Sagt dir, wieviele Mitglieder der Server hat, auf dem du dich befindest.\n**t!owner** - Sagt dir, wer der die Eigentumsrechte von einem Server hat.\n**t!userinfo <@>** - Damit kannst du dir die Benutzerinfo von dir oder jmd anderes anzeigen lassen')
     }
-    else if(parts[0] == '!clear' || parts[0] == 't!purge') {
+    else if(parts[0] == '!clear' || parts[0] == '!purge') {
         if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send('Du brauchst die Berechtigung, Nachrichten zu löschen!')
         if(!parts[1]) return message.channel.send('Du musst angeben, wieviele Nachrichten du löschen möchtest!')
         if(isNaN(parts[1])) return message.channel.send('Die Angabe, wieviele Nachrichten du löschen möchtest, muss eine Zahl sein!')
