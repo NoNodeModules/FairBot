@@ -22,10 +22,10 @@ bot.on('message', message => {
     }
     else if(parts[0] == '!clear' || parts[0] == '!purge') {
         if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send('Du brauchst die Berechtigung, Nachrichten zu löschen!')
-        if(!parts[1]) return message.channel.send('Du musst angeben, wieviele Nachrichten du löschen möchtest!')
+        if(!parts[0]) return message.channel.send('Du musst angeben, wieviele Nachrichten du löschen möchtest!')
         if(isNaN(parts[1])) return message.channel.send('Die Angabe, wieviele Nachrichten du löschen möchtest, muss eine Zahl sein!')
-        if(parts[1] > 100) return message.channel.send('Du kannst nicht mehr als 100 Nachrichten löschen!')
-        if(parts[1] < 2) return message.channel.send('Du kannst nicht weniger als 2 Nachricht löschen')
+        if(parts[0] > 100) return message.channel.send('Du kannst nicht mehr als 100 Nachrichten löschen!')
+        if(parts[0] < 1) return message.channel.send('Du kannst nicht weniger als 2 Nachricht löschen')
         message.channel.bulkDelete(parts[1])
         message.channel.send(`Ich habe erfolgreich **${parts[1]}** Nachrichten gelöscht!`).then(m => m.delete({timeout: 3000}))
     }
@@ -37,7 +37,7 @@ bot.on('message', message => {
     }
     else if(parts[0] == '!userinfo') {
 
-        if(!message.member.hasPermission("ADMINISTRATOR")) return message.reply("");
+        if(!message.member.hasPermission("ADMINISTRATOR")) return message.reply("dies kannst du nicht tun!");
 
         const guild = message.guild
         const usr = message.mentions.users.first() || message.author
