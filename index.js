@@ -75,15 +75,38 @@ bot.on('message', message => {
 
         message.channel.send(embed)
     }
-    else if(message.content.includes('!warn')) {
-        const embed = new Discord.MessageEmbed()
-        .setColor('00abff')
-        .setTitle('**Achtung!**, <@!${usr.tag}>, ')
-        .addField('Du wurdest verwarnt')
-        .addField('Grund | ${grund')
+    else if(parts[0] == '!warn') {
 
-        message.channel.send(embed)
-    }
-})
+        if(!message.member.hasPermission("ADMINISTRATOR")) return message.reply("dies kannst du nicht tun!");
+        let user = message.mentions.users.first();
+        let grund = message.content.split(" ").slice(2).join(" ");
+
+        if(!user) return message.channel.send("Gib ein User an!");
+
+        if(!grund) grund = "Kein Grund"
+
+        let embed = new Discord.MessageEmbed()
+        .setColor('00abff')
+        .setTitle("Warnung")
+        .setDescription(`Warnung <@!${user.id}>, du wurdest verwarnt!\nGrund | ${grund}`);
+
+        message.channel.send(embed).then(msg=>msg.delete({timeout:"8000"}));
+        
+        warnFile[user.id+message.guild.id].warns += 1
+
+        if(warnFile[user.id+message.guild.id].warns > warnFile[user.id+message.guild.id].maxwarns)
+            if(message.guild.member(user).kickable == true){
+                message.channel.send(`Der User <@!${user.id}> wurde gekickt da er zu viel Verwarnungen hatte!`)
+                message.guild.member(user).kick("Zu viel Verwarnungen!")
+            }
+        }
+        
+        delete warnFile[user.id+message.guild.id]
+
+        false.writeFIle("./warns.json", JSON.stringify(warnFile), function(err){
+            if(err) console.log(err)
+        })
+
+    })
 
 bot.login(process.env.TOKEN)
