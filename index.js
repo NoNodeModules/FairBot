@@ -67,7 +67,7 @@ bot.on('message', message => {
         const embed = new Discord.MessageEmbed()
         .setColor('ff0000')
         .setTitle('**Was gibts?**')
-        .addField('Brauchst du Hilfe?', 'Benutze t!help')
+        .addField('Brauchst du Hilfe?', 'Benutze !help')
         .addField('Willst du dem Owner eine FA schicken?', `Hier der Name: **${message.guild.owner.user.tag}**`)
         .addField('Brauchst du bei sonst etwas Hilfe?', 'Wende dich an den Owner oder das Team')
 
@@ -79,7 +79,7 @@ bot.on('message', message => {
     if(message.member.permissions.has("BAN_MEMBERS")){
         message.channel.send('Benutze !ban <Member>');
     } else {
-        message.channel.send('');
+        message.channel.send('No perms');
     }
 
 })
