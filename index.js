@@ -4,7 +4,7 @@ const TOKEN = 'ODQ5MzYzMDE5NDA5MzkxNjY4.YLaE9A.3tFa5Nm61Zj4fq6Go_5f0BJ3dcQ'
 const prefix = '!'
 
 bot.on('ready', () => {
-    console.log('Der Bot ist nun Online!')
+    console.log('FairShop ist nun Online!')
 
     bot.user.setPresence({
         activity: {
@@ -73,6 +73,15 @@ bot.on('message', message => {
 
         message.channel.send(embed)
     }
+
+    let role = message.guild.roles.cache.find(r => r.name === "| Leitung");
+    
+    if(message.member.permissions.has("BAN_MEMBERS")){
+        message.channel.send('Benutze !ban <Member>');
+    } else {
+        message.channel.send('');
+    }
+
 })
 
 bot.login(process.env.TOKEN)
