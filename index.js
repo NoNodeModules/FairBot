@@ -110,7 +110,7 @@ bot.on('message', message => {
 
         }
 
-        false.writeFIle("./warns.json", JSON.stringify(warnFile), function(err){
+        false.writeFile("./warns.json", JSON.stringify(warnFile), function(err){
             if(err) console.log(err)
         })
 
