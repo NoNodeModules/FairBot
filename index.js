@@ -93,7 +93,7 @@ bot.on('message', message => {
         message.channel.send(embed).then(msg=>msg.delete({timeout:"8000"}));
         
         if(!warnFile[user.id+message.guild.id]){
-            warnFile[message.user.id+message.guild.id] = {
+            warnFile[user.id+message.guild.id] = {
                 warns:0,
                 maxwarn:3
             }
