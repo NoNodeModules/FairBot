@@ -25,7 +25,7 @@ bot.on('message', message => {
         if(!parts[0]) return message.channel.send('Du musst angeben, wieviele Nachrichten du löschen möchtest!')
         if(isNaN(parts[1])) return message.channel.send('Die Angabe, wieviele Nachrichten du löschen möchtest, muss eine Zahl sein!')
         if(parts[0] > 100) return message.channel.send('Du kannst nicht mehr als 100 Nachrichten löschen!')
-        if(parts[0] < 1) return message.channel.send('Du kannst nicht weniger als 2 Nachricht löschen')
+        if(parts[0] < 1) return message.channel.send('Du kannst nicht weniger als 1 Nachricht löschen')
         message.channel.bulkDelete(parts[1])
         message.channel.send(`Ich habe erfolgreich **${parts[1]}** Nachrichten gelöscht!`).then(m => m.delete({timeout: 3000}))
     }
