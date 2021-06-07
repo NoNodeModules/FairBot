@@ -77,8 +77,6 @@ bot.on('message', message => {
         message.channel.send(embed)
     }
     else if(parts[0] == '!warn') {
-
-        if(!message.member.hasPermission("ADMINISTRATOR")) return message.reply("dies kannst du nicht tun!");
         let user = message.mentions.users.first();
         let grund = message.content.split(" ").slice(2).join(" ");
 
