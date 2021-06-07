@@ -46,7 +46,7 @@ bot.on('message', message => {
         const userr = member.user
 
         const embed = new Discord.MessageEmbed()
-        .setColor('69e3e2')
+        .setColor('00abff')
         .setAuthor(`${usr.tag}`, `${usr.displayAvatarURL({dynamic: true})}`)
         .setThumbnail(`${usr.displayAvatarURL({dynamic: true})}`)
         .setDescription(`${usr}'s Informationen`)
@@ -67,9 +67,9 @@ bot.on('message', message => {
     }
     else if(message.content.includes('!bot')) {
         const embed = new Discord.MessageEmbed()
-        .setColor('ff0000')
+        .setColor('00abff')
         .setTitle('**Was gibts?**')
-        .addField('Brauchst du Hilfe?', 'Benutze t!help')
+        .addField('Brauchst du Hilfe?', 'Benutze !help')
         .addField('Willst du dem Owner eine FA schicken?', `Hier der Name: **${message.guild.owner.user.tag}**`)
         .addField('Brauchst du bei sonst etwas Hilfe?', 'Wende dich an den Owner oder das Team')
 
