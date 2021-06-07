@@ -3,7 +3,6 @@ const bot = new Discord.Client()
 const fs = require("fs");
 const TOKEN = 'ODQ5MzYzMDE5NDA5MzkxNjY4.YLaE9A.3tFa5Nm61Zj4fq6Go_5f0BJ3dcQ'
 const prefix = '!'
-welcome(client);
 
 bot.on('ready', () => {
     console.log('Der Bot ist nun Online!')
@@ -14,6 +13,13 @@ bot.on('ready', () => {
             type: 'PLAYING',
         }
     })
+        
+    bot.on('guildMemberAdd', guildMember =>{
+        let welcomeRole = guildMember.guild.roles.cache.find(role => role.name === 'Käufer');
+
+        guildMember.roles.add(welcomeRole)
+
+    
 })
 
 bot.on('message', message => {
@@ -81,3 +87,4 @@ bot.on('message', message => {
 })
 
 bot.login(process.env.TOKEN)
+})
