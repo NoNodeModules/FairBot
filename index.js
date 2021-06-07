@@ -15,40 +15,6 @@ bot.on('ready', () => {
     })
 })
 
-client.on('guildMemberAdd', async member => {
-
-
-
-    const channel = member.guild.channels.cache.find(ch => ch.name === config.channel);
- 
-    if (!channel) return;
- 
-  let data = await canva.welcome(member, { gradiant: "darkness" })
- 
- //GRADIANTS NAME - coldsky, peakblue, pinkman, aqua, darkness, angel
- 
- 
- 
- 
- 
-    const attachment = new Discord.MessageAttachment(
- 
-      data,
- 
-      "welcome-image.png"
- 
-    );
- 
-    channel.send(
- 
-      `Welcome to the server, ${member.user.username}!`,
- 
-      attachment
- 
-      );  
-
-    });
-
 bot.on('message', message => {
     let parts = message.content.split(" ");
 
