@@ -69,7 +69,7 @@ bot.on('message', message => {
         const embed = new Discord.MessageEmbed()
         .setColor('00abff')
         .setTitle('**Was gibts?**')
-        .addField('Brauchst du Hilfe?', 'Benutze !help')
+        .addField('Brauchst du Hilfe?', 'Erstelle ein Ticket in #📝support')
         .addField('Willst du dem Owner eine FA schicken?', `Hier der Name: **${message.guild.owner.user.tag}**`)
         .addField('Brauchst du bei sonst etwas Hilfe?', 'Wende dich an den Owner oder das Team')
 
