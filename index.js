@@ -75,6 +75,15 @@ bot.on('message', message => {
 
         message.channel.send(embed)
     }
+    else if(message.content.includes('!warn')) {
+        const embed = new Discord.MessageEmbed()
+        .setColor('00abff')
+        .setTitle('**Achtung!**, <@!${usr.tag}>, ')
+        .addField('Du wurdest verwarnt')
+        .addField('Grund | ${grund')
+
+        message.channel.send(embed)
+    }
 })
 
 bot.login(process.env.TOKEN)
