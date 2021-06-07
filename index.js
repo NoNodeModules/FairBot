@@ -67,21 +67,12 @@ bot.on('message', message => {
         const embed = new Discord.MessageEmbed()
         .setColor('ff0000')
         .setTitle('**Was gibts?**')
-        .addField('Brauchst du Hilfe?', 'Benutze !help')
+        .addField('Brauchst du Hilfe?', 'Benutze t!help')
         .addField('Willst du dem Owner eine FA schicken?', `Hier der Name: **${message.guild.owner.user.tag}**`)
         .addField('Brauchst du bei sonst etwas Hilfe?', 'Wende dich an den Owner oder das Team')
 
         message.channel.send(embed)
     }
-
-    let role = message.guild.roles.cache.find(r => r.name === "| Leitung");
-    
-    if(message.member.permissions.has("BAN_MEMBERS")){
-        message.channel.send('Benutze !ban <Member>');
-    } else {
-        message.channel.send('No perms');
-    }
-
 })
 
 bot.login(process.env.TOKEN)
