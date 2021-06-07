@@ -18,6 +18,40 @@ bot.on('ready', () => {
 bot.on('message', message => {
     let parts = message.content.split(" ");
 
+    client.on('guildMemberAdd', async member => {
+
+
+
+        const channel = member.guild.channels.cache.find(ch => ch.name === config.channel);
+     
+        if (!channel) return;
+     
+      let data = await canva.welcome(member, { gradiant: "darkness" })
+     
+     //GRADIANTS NAME - coldsky, peakblue, pinkman, aqua, darkness, angel
+     
+     
+     
+     
+     
+        const attachment = new Discord.MessageAttachment(
+     
+          data,
+     
+          "welcome-image.png"
+     
+        );
+     
+        channel.send(
+     
+          `Welcome to the server, ${member.user.username}!`,
+     
+          attachment
+     
+          );  
+
+        });
+
     if(parts[0] == '!help') {
         message.channel.send('**Hier meine Befehle**\n**!clear**/**!purge** - Löscht bis zu 100 Nachrichten\n**!member** - Sagt dir, wieviele Mitglieder der Server hat, auf dem du dich befindest.\n**!owner** - Sagt dir, wer der die Eigentumsrechte von einem Server hat.\n**!userinfo <@>** - Damit kannst du dir die Benutzerinfo von dir oder jmd anderes anzeigen lassen')
     }
