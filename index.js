@@ -17,61 +17,7 @@ bot.on('ready', () => {
 bot.on('message', message => {
     let parts = message.content.split(" ");
 
-    client.on("messageReactionAdd", async (reaction, user) => {
-        if(reaction.message.partial) reaction.fetch();
-        if(reaction.partial) reaction.fetch();
-        if(user.bot || !reaction.message.guild) return;
-      
-        for (let index = 0; index < reactionRolesConfig.reactions.length; index++) {
-          let reactionrole = reactionRolesConfig.reactions[index];
-      
-          if(reaction.message.id == reactionrole.message && reaction.emoji.name == reactionrole.emoji){
-            reaction.message.guild.members.cache.get(user.id).roles.add(reactionrole.role)
-          }
-        }
-      })
-      
-      client.on("messageReactionRemove", async (reaction, user) => {
-        if(reaction.message.partial) reaction.fetch();
-        if(reaction.partial) reaction.fetch();
-        if(user.bot || !reaction.message.guild) return;
-      
-        for (let index = 0; index < reactionRolesConfig.reactions.length; index++) {
-          let reactionrole = reactionRolesConfig.reactions[index];
-      
-          if(reaction.message.id == reactionrole.message && reaction.emoji.name == reactionrole.emoji && reaction.message.guild.members.cache.get(user.id).roles.cache.has(reactionrole.role)){
-            reaction.message.guild.members.cache.get(user.id).roles.remove(reactionrole.role)
-          }
-        }
-      })
-      
-      
-      
-      client.on('message', async (msg) => {
-        if(msg.author.bot || !msg.guild) return;
-        if(msg.content.startsWith('!createReactionRole') && msg.member.hasPermission('ADMINISTRATOR')){
-          var args = msg.content.split(' ');
-          if(args.length == 3){
-            var emoji = args[1];
-            var roleid = args[2]
-            var role = msg.guild.roles.cache.get(roleid);
-            if(!role){
-              msg.reply('die rolle gibt es nicht')
-              return;
-            } 
-            var embed = new Discord.MessageEmbed()
-            .setTitle('Klicke auf ' + emoji)
-            .setDescription('Klicke auf ' + emoji + " um die Rolle " + `<@&${role.id}>` + " zu bekomme oder sie zu entfernen");
-            var message = await msg.channel.send(embed)
-            message.react(emoji)
-            var toSave = {message: message.id, emoji: emoji,role: roleid}
-            reactionRolesConfig.reactions.push(toSave);
-            let data = JSON.stringify(reactionRolesConfig);
-            fs.writeFileSync('reactionroles.json', data);   
-           }
-        }
-      
-      })
+    
 
     if(parts[0] == '!help') {
         message.channel.send('**Hier meine Befehle**\n**!clear**/**!purge** - Löscht bis zu 100 Nachrichten\n**!member** - Sagt dir, wieviele Mitglieder der Server hat, auf dem du dich befindest.\n**!owner** - Sagt dir, wer der die Eigentumsrechte von einem Server hat.\n**!userinfo <@>** - Damit kannst du dir die Benutzerinfo von dir oder jmd anderes anzeigen lassen')
@@ -91,7 +37,9 @@ bot.on('message', message => {
     else if(parts[0] == '!owner') {
         message.channel.send(`Der Owner von **${message.guild.name}**-Server ist **${message.guild.owner.user.tag}**`)
     }
-    else if(parts[0] == '!userinfo') {
+    else if(parts[0] == '!userinfo')
+
+    if(!message.member.hasPermission("ADMINISTRATOR")) return message.reply("Keine Rechte!")
 
         const guild = message.guild
         const usr = message.mentions.users.first() || message.author
