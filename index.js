@@ -11,16 +11,16 @@ bot.on('ready', () => {
         activity: {
             name: 'FairShop CB5',
             type: 'PLAYING',
-        }
+        }      
     })
-        
-    bot.on('guildMemberAdd', guildMember =>{
-        let welcomeRole = guildMember.guild.roles.cache.find(role => role.name === 'Käufer');
-
-        guildMember.roles.add(welcomeRole)
-
-    
 })
+
+
+bot.on('guildMemberAdd', guildMember =>{
+    let welcomeRole = guildMember.guild.roles.cache.find(role => role.name === 'Käufer');
+
+    guildMember.roles.add(welcomeRole)
+});
 
 bot.on('message', message => {
     let parts = message.content.split(" ");
@@ -87,4 +87,3 @@ bot.on('message', message => {
 })
 
 bot.login(process.env.TOKEN)
-})
