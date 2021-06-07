@@ -37,7 +37,7 @@ bot.on('message', message => {
     }
     else if(parts[0] == '!userinfo') {
 
-        if(!message.member.hasPermission("ADMINISTRATOR")) return message.reply("Keine Rechte!");
+        if(!message.member.hasPermission("ADMINISTRATOR")) return message.reply("");
 
         const guild = message.guild
         const usr = message.mentions.users.first() || message.author
