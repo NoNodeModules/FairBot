@@ -65,7 +65,7 @@ bot.on('message', message => {
 
         message.channel.send(embed)
     }
-    else if(message.content.includes('<@!BOTID>')) {
+    else if(message.content.includes('@FairShop |')) {
         const embed = new Discord.MessageEmbed()
         .setColor('ff0000')
         .setTitle('**Was gibts?**')
