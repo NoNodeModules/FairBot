@@ -17,8 +17,6 @@ bot.on('ready', () => {
 bot.on('message', message => {
     let parts = message.content.split(" ");
 
-    
-
     if(parts[0] == '!help') {
         message.channel.send('**Hier meine Befehle**\n**!clear**/**!purge** - Löscht bis zu 100 Nachrichten\n**!member** - Sagt dir, wieviele Mitglieder der Server hat, auf dem du dich befindest.\n**!owner** - Sagt dir, wer der die Eigentumsrechte von einem Server hat.\n**!userinfo <@>** - Damit kannst du dir die Benutzerinfo von dir oder jmd anderes anzeigen lassen')
     }
@@ -37,9 +35,9 @@ bot.on('message', message => {
     else if(parts[0] == '!owner') {
         message.channel.send(`Der Owner von **${message.guild.name}**-Server ist **${message.guild.owner.user.tag}**`)
     }
-    else if(parts[0] == '!userinfo')
+    else if(parts[0] == '!userinfo') {
 
-    if(!message.member.hasPermission("ADMINISTRATOR")) return message.reply("Keine Rechte!")
+        if(!message.member.hasPermission("ADMINISTRATOR")) return message.reply("Keine Rechte!");
 
         const guild = message.guild
         const usr = message.mentions.users.first() || message.author
@@ -77,9 +75,6 @@ bot.on('message', message => {
 
         message.channel.send(embed)
     }
-
-
-      
 })
 
 bot.login(process.env.TOKEN)
