@@ -92,6 +92,13 @@ bot.on('message', message => {
 
         message.channel.send(embed).then(msg=>msg.delete({timeout:"8000"}));
         
+        if(!warnFile[user.id+message.guild.id]){
+            warnFile[message.user.id+message.guild.id] = {
+                warns:0,
+                maxwarn:3
+            }
+        }
+
         warnFile[user.id+message.guild.id].warns += 1
 
         if(warnFile[user.id+message.guild.id].warns > warnFile[user.id+message.guild.id].maxwarns)
@@ -99,9 +106,10 @@ bot.on('message', message => {
                 message.channel.send(`Der User <@!${user.id}> wurde gekickt da er zu viel Verwarnungen hatte!`)
                 message.guild.member(user).kick("Zu viel Verwarnungen!")
             }
+
+            delete warnFile[user.id+message.guild.id]
+
         }
-        
-        delete warnFile[user.id+message.guild.id]
 
         false.writeFIle("./warns.json", JSON.stringify(warnFile), function(err){
             if(err) console.log(err)
