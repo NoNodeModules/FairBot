@@ -43,7 +43,7 @@ bot.on('message', message => {
 
         const userr = member.user
 
-        const embed = new Discord.MessageEmbed()
+        const newEmbed = new Discord.MessageEmbed()
         .setColor('69e3e2')
         .setAuthor(`${usr.tag}`, `${usr.displayAvatarURL({dynamic: true})}`)
         .setThumbnail(`${usr.displayAvatarURL({dynamic: true})}`)
@@ -61,7 +61,7 @@ bot.on('message', message => {
             value: member.roles.cache.size - 1,
         })
 
-        message.channel.send(embed)
+        message.channel.send(newEmbed)
     }
     else if(message.content.includes('<@!BOTID>')) {
         const embed = new Discord.MessageEmbed()
