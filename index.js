@@ -2,11 +2,14 @@ const Discord = require('discord.js')
 const bot = new Discord.Client()
 const TOKEN = 'ODQ5MzYzMDE5NDA5MzkxNjY4.YLaE9A.3tFa5Nm61Zj4fq6Go_5f0BJ3dcQ'
 const prefix = '!'
+const fs = require('fs');
+bot.commands = new Discord.Collection();
+const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('|'))
+for(const file of commandFiles){
+    const command = require(`./commands/${file}`);
 
-const welcome = require('./commands/welcome');
-const welcome = require('./commands/mute');
-
-
+    bot.commands.set(command.name, command)
+}
 bot.on('ready', () => {
     console.log('Der Bot ist nun Online!')
 
@@ -18,8 +21,16 @@ bot.on('ready', () => {
     })
 })
 
+
+
 bot.on('message', message => {
     let parts = message.content.split(" ");
+    if(!message.content.startsWith(prefix) || message.author.bot) return;
+
+    const args = message.content.slice(prefix.length).split(/ +/);
+    const command = args.shift().toLowerCase()
+
+    if(command === 'mute')
 
 
     if(parts[0] == '!help') {
