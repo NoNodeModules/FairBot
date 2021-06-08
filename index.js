@@ -8,6 +8,8 @@ const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith(
 for(const file of commandFiles){
     const command = require(`./commands/${file}`);
 
+    const welcome = require('./commands/Mod/welcome');
+
     bot.commands.set(command.name, command)
 }
 bot.on('ready', () => {
