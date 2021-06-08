@@ -10,8 +10,8 @@ module.exports = {
     callback: (message, args) => {
         const member = message.mentions.members.first()
         if(!member) return message.reply('Please Mention A User To Mute.')
-        member.roles.add('801728021438005288') // Add Mute Role to User
-        if(member.roles.cache.has('801728021438005288')) return message.reply('User Is Already Muted.') // If User Is Already Muted.
+        member.roles.add('849765778248302632') // Add Mute Role to User
+        if(member.roles.cache.has('849765778248302632')) return message.reply('User Is Already Muted.') // If User Is Already Muted.
 
         const embed = new MessageEmbed()
         .setTitle('User Muted')
