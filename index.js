@@ -1,6 +1,6 @@
 const Discord = require('discord.js')
 const bot = new Discord.Client()
-const TOKEN = 'ODQ5MzYzMDE5NDA5MzkxNjY4.YLaE9A.3tFa5Nm61Zj4fq6Go_5f0BJ3dcQ'
+const TOKEN = 'ODQ5MzYzMDE5NDA5MzkxNjY4.YLaE9A.7nz4Ttj5GrCfTjnM6mwYoxrNnyM'
 const prefix = '!'
 const fs = require('fs');
 bot.commands = new Discord.Collection();
@@ -30,7 +30,9 @@ bot.on('message', message => {
     const args = message.content.slice(prefix.length).split(/ +/);
     const command = args.shift().toLowerCase()
 
-    if(command === 'mute')
+    if(command === 'kick'){
+        bot.commands.get('kick').execute(message, args);
+    }
 
 
     if(parts[0] == '!help') {
