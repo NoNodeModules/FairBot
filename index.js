@@ -3,8 +3,9 @@ const bot = new Discord.Client()
 const TOKEN = 'ODQ5MzYzMDE5NDA5MzkxNjY4.YLaE9A.3tFa5Nm61Zj4fq6Go_5f0BJ3dcQ'
 const prefix = '!'
 
-const welcome = require('./commands/Mod/welcome');
-const loadCommands = require('./commands/load-commands');
+const welcome = require('./commands/welcome');
+const welcome = require('./commands/mute');
+
 
 bot.on('ready', () => {
     console.log('Der Bot ist nun Online!')
