@@ -8,7 +8,7 @@ bot.on('ready', () => {
 
     bot.user.setPresence({
         activity: {
-            name: 'FairShop CB5',
+            name: 'FairShop',
             type: 'PLAYING',
         }      
     })
