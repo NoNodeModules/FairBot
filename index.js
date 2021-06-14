@@ -85,7 +85,6 @@ client.on('message', async (msg) => {
         uptime: uptimecommand,
         kick: kickcommand,
         ban: bancommand,
-        say: saycommand
         
     }
 
