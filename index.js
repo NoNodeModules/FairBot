@@ -116,18 +116,6 @@ function helpcommand (message, args) {
 
 }
 
-function saycommand (message, args) {
-    const channel = message.channel
-    const messagToSay = args.join(" ");
-    const embed = new Discord.MessageEmbed()
-    .setColor('#7852FF')
-    .setAuthor(`${messagToSay}`)
-    .addField(`${messageToSay}`)
-    .setFooter('Coded by Jay 🔥')
-    channel.send(embed);
-
-}
-
 function uptimecommand (message, args) {
     let days = Math.floor(client.uptime / 86400000 );
     let hours = Math.floor(client.uptime / 3600000 ) % 24;
