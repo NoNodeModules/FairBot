@@ -1,14 +1,17 @@
+const { clear } = require('console');
 const Discord = require('discord.js');
 const { captureRejectionSymbol } = require('events');
 const prefix = '!'
 const fs = require('fs')
 const reactionRolesConfig = JSON.parse(fs.readFileSync('reactionroles.json' , 'utf8'))
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
-
+const welcomechannelId = `853727010748629032` //Channel You Want to Send The Welcome Message
+const targetChannelId = `841228384058212413` //Channel For Rules
 
 const messages = ['!help' , 'FairShop' , 'Coded by Jay'];
 let current = 1;
 client.on('ready', () => {
+    
     console.log(`Logged in as ${client.user.tag}`)
 
     client.user.setActivity(messages[0] ,{type: `PLAYING`})
@@ -52,6 +55,80 @@ client.on("messageReactionAdd", async (reaction, user) => {
     }
   })
 
+  client.on('messageReactionAdd', async (reaction, user) =>{
+    if(reaction.message.partial) await reaction.message.fetch();
+    if(reaction.partial) await reaction.fetch();
+    if(user.bot) return;
+    if(!reaction.message.guild) return;
+        
+        if(reaction.emoji.name === "📩"){
+            reaction.users.remove(user);
+
+            reaction.message.guild.channels.create(`ticket ${user.username.substr(0,18)}`, {
+                type: "text",
+                parent: "852675454087069717",
+                topic: `Ticket von ${user.tag}, wenn du das Ticket schließen möchtest reagiere mit 🔒`,
+                permissionOverwrites: [
+                { id: user.id, allow: ["SEND_MESSAGES", "VIEW_CHANNEL"], },
+                { id: reaction.message.guild.roles.everyone, deny: ['VIEW_CHANNEL'], },
+            ]
+            })
+            .then(ch => {
+                const embed = new Discord.MessageEmbed()
+                .setColor('#7852FF')
+                .setAuthor('Support')
+                .addField('» Der Support wird sich in Kürze bei Ihnen melden', 'Bitte haben sie etwas geduld!')
+                .setFooter('Coded by Jay 🔥')
+                ch.send(embed).then(msg => msg.react('🔒'))
+            })
+        }
+    }
+) 
+
+client.on('messageReactionAdd', async (reaction, user)=> {
+if(reaction.message.partial) await reaction.message.fetch();
+if(reaction.partial) await reaction.fetch();
+if(user.bot) return;
+if(!reaction.message.guild) return;
+
+if(reaction.emoji.name === "🔒"){
+    if(!reaction.message.channel.name.includes('ticket-')) return;
+    reaction.users.remove(user)
+
+    reaction.message.react('✅')
+    reaction.message.react('❎')
+}
+})
+
+client.on('messageReactionAdd', async (reaction, user, message)=> {
+if(reaction.message.partial) await reaction.message.fetch();
+if(reaction.partial) await reaction.fetch();
+if(user.bot) return;
+if(!reaction.message.guild) return;
+
+if(reaction.emoji.name === "✅"){
+    if(!reaction.message.channel.name.includes('ticket-')) return;
+    
+    reaction.message.channel.send("Ticket wird in 5 Sekunden schließen!")
+    setTimeout(() => reaction.message.channel.delete(), 5000);
+}
+})
+
+client.on('messageReactionAdd', async (reaction, user)=> {
+if(reaction.message.partial) await reaction.message.fetch();
+if(reaction.partial) await reaction.fetch();
+if(user.bot) return;
+if(!reaction.message.guild) return;
+
+if(reaction.emoji.name === "❎"){
+    if(!reaction.message.channel.name.includes('ticket-')) return;
+    
+    
+    reaction.message.reactions.cache.get(`✅`).remove()
+    reaction.message.reactions.cache.get(`❎`).remove()
+}
+})
+
   
 client.on('message', async (msg) => {
     if(msg.author.bot || !msg.guild) return;
@@ -74,9 +151,8 @@ client.on('message', async (msg) => {
       reactionRolesConfig.reactions.push(toSave);
       let data = JSON.stringify(reactionRolesConfig);
       fs.writeFileSync('reactionroles.json', data);   
-     }
-  }
-
+    }
+}
 })
 
     var cmdmap = {
@@ -85,6 +161,11 @@ client.on('message', async (msg) => {
         uptime: uptimecommand,
         kick: kickcommand,
         ban: bancommand,
+        clear,
+        
+
+
+    
         
     }
 
@@ -114,6 +195,49 @@ function helpcommand (message, args) {
     channel.send(embed);
 
 }
+
+client.on('message', async (msg) => {
+    if(msg.author.bot || !msg.guild) return;
+  if(msg.content.startsWith('!tlog') && msg.member.hasPermission('ADMINISTRATOR')){
+    var args = msg.content.split(' ');
+    if(args.length == 3){
+      var member = args[1];
+      var roleid = args[2]
+      var role = msg.guild.roles.cache.get(roleid);
+      if(!role){
+        msg.reply('die rolle gibt es nicht')
+        return;
+      } 
+      var embed = new Discord.MessageEmbed()
+      .setColor('#7852FF')
+      .setTitle('Team-Changelog')
+      .setDescription(member + " ist dem Team als " + `<@&${role.id}>` + "beigetreten!");
+      var message = await msg.channel.send(embed)  
+    }
+}
+})
+
+client.on('message', async (msg) => {
+    if(msg.author.bot || !msg.guild) return;
+  if(msg.content.startsWith('!remove') && msg.member.hasPermission('ADMINISTRATOR')){
+    var args = msg.content.split(' ');
+    if(args.length == 3){
+      var member = args[1];
+      var roleid = args[2]
+      var role = msg.guild.roles.cache.get(roleid);
+      if(!role){
+        msg.reply('die rolle gibt es nicht')
+        return;
+      } 
+      var embed = new Discord.MessageEmbed()
+      .setColor('#7852FF')
+      .setTitle('Team-Changelog')
+      .setDescription(member + " hat das Team als " + `<@&${role.id}>` + "verlassen!");
+      var message = await msg.channel.send(embed)  
+    }
+}
+})
+
 
 function uptimecommand (message, args) {
     let days = Math.floor(client.uptime / 86400000 );
@@ -169,7 +293,9 @@ function bancommand (message, args) {
 
 }
 
+
 client.on('message', message => {
+
     let parts = message.content.split(" ");
     if(parts[0] == '!clear') {
         if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send('Du brauchst die Berechtigung, Nachrichten zu löschen!')
@@ -178,9 +304,9 @@ client.on('message', message => {
         if(parts[1] > 100) return message.channel.send('Du kannst nicht mehr als **100** Nachrichten löschen!')
         if(parts[1] < 1) return message.channel.send('Du kannst nicht weniger als 1 Nachricht löschen')
         message.channel.bulkDelete(parts[1])
-        message.channel.send(`Ich habe erfolgreich **${parts[1]}** Nachrichten gelöscht!`).then(m => m.delete({timeout: 3000}))
+        message.channel.send(`Ich habe erfolgreich **${parts[1]}** Nachrichten gelöscht!`).then(m => m.delete({timeout: 500}))
     }
-    else if(parts[0] == '!info') {
+    if(parts[0] == '!info') {
             if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("Du brauchst die Berechtigung, Infos abzurufen!");
 
             const guild = message.guild
@@ -211,7 +337,7 @@ client.on('message', message => {
             message.channel.send(embed)
         }
 
-        
+
 
 
     if (!message.guild) return;
@@ -248,4 +374,4 @@ client.on('message', message => {
 
       
 });
-client.login('ODQ5MzYzMDE5NDA5MzkxNjY4.YLaE9A.Oi7CehQgxIlfouiftshmDo1-348')
+client.login('ODQ5MzYzMDE5NDA5MzkxNjY4.YLaE9A.siI-KpPItWd4hVVYURToNepB2G4')
