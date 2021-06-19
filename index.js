@@ -1,3 +1,4 @@
+const { settings } = require('cluster');
 const { clear } = require('console');
 const Discord = require('discord.js');
 const { captureRejectionSymbol } = require('events');
@@ -25,6 +26,23 @@ client.on('ready', () => {
             client.user.setActivity(messages[current] , {type : "PLAYING"})
         }
     }, 5*1000)
+});
+
+
+
+client.on('guildMemberAdd', (member) => {
+
+    member.roles.add('840706781223452702')
+    console.log(member) // If You Want The User Info in Console Who Joined Server Then You Can Add This Line. // Optional
+    const channel = member.guild.channels.cache.get(welcomechannelId)
+
+    const embed = new Discord.MessageEmbed()
+    .setTitle(`Willkommen`)
+    .setThumbnail(member.user.displayAvatarURL({dynamic: true, size: 512}))
+    .setDescription(` <@${member.user.id}>, Willkommen bei **${member.guild.name}**`)
+    .setColor('#7852FF')
+channel.send(embed)
+
 });
 
 client.on("messageReactionAdd", async (reaction, user) => {
@@ -86,18 +104,19 @@ client.on("messageReactionAdd", async (reaction, user) => {
 ) 
 
 client.on('messageReactionAdd', async (reaction, user)=> {
-if(reaction.message.partial) await reaction.message.fetch();
-if(reaction.partial) await reaction.fetch();
-if(user.bot) return;
-if(!reaction.message.guild) return;
+    if(reaction.message.partial) await reaction.message.fetch();
+    if(reaction.partial) await reaction.fetch();
+    if(user.bot) return;
+    if(!reaction.message.guild) return;
+    
+    if(reaction.emoji.name === "🔒"){
+        if(!reaction.message.channel.name.includes('ticket-')) return;
+        reaction.users.remove(user)
+    
+        reaction.message.react('✅')
+        reaction.message.react('❎')
 
-if(reaction.emoji.name === "🔒"){
-    if(!reaction.message.channel.name.includes('ticket-')) return;
-    reaction.users.remove(user)
-
-    reaction.message.react('✅')
-    reaction.message.react('❎')
-}
+        }
 })
 
 client.on('messageReactionAdd', async (reaction, user, message)=> {
@@ -109,7 +128,11 @@ if(!reaction.message.guild) return;
 if(reaction.emoji.name === "✅"){
     if(!reaction.message.channel.name.includes('ticket-')) return;
     
-    reaction.message.channel.send("Ticket wird in 5 Sekunden schließen!")
+    const embed = new Discord.MessageEmbed()
+    .setColor('#7852FF')
+    .setAuthor('Support')
+    .addField('» Ticket wird in **5** Sekunden schließen!', 'Coded by Jay 🔥')
+    reaction.message.channel.send(embed)
     setTimeout(() => reaction.message.channel.delete(), 5000);
 }
 })
@@ -161,6 +184,7 @@ client.on('message', async (msg) => {
         uptime: uptimecommand,
         kick: kickcommand,
         ban: bancommand,
+        say: saycommand,
         clear,
         
 
@@ -187,14 +211,43 @@ function helpcommand (message, args) {
     const embed = new Discord.MessageEmbed()
     .setColor('#7852FF')
     .setAuthor('Hilfe')
-    .addField('Brauchst du Hilfe?', 'Erstelle ein Ticket mit **!ticket**')
-    .addField('Du willst jemanden Reporten?', 'Melde ihn mit **!report** [**user**] [**grund**]')
+    .addField('Brauchst du Hilfe?', 'Erstelle ein Ticket in **#➥📝support**')
     .addField('Willst du dem **Owner** eine FA schicken?', `Hier der Name: **${message.guild.owner.user.tag}**`)
     .addField('Brauchst du bei sonst etwas **Hilfe?**', 'Wende dich an den **Owner** oder **das Team**')
     .setFooter('Coded by Jay 🔥')
     channel.send(embed);
 
 }
+
+function saycommand (message, args) {
+    const messageToSay = args.join(" ");
+    const sayEmbed = new Discord.MessageEmbed()
+    .setAuthor(message.author.tag, message.author.displayAvatarURL({ dyanmic: true }))
+    .setDescription(`${messageToSay}`)
+    .setTimestamp()
+    .setColor('#7852FF')
+
+message.channel.send(sayEmbed)
+
+}
+
+    client.on('message', async (message) => {
+        let parts = message.content.split(" ");
+        if(parts[0] == '!ticketsetup') {
+        let channel = message.mentions.channels.first();
+        if(!channel) return message.reply("Nutze | !ticket-setup #channel");
+
+        let sent = await channel.send(new Discord.MessageEmbed()
+        .setColor('#7852FF')
+        .setAuthor('Support')
+        .addField(` Reagiere mit 📩 Um ein Ticket zuöffnen`, 'Coded by Jay 🔥')
+        );
+
+        sent.react('📩');
+
+        message.channel.send("Ticket erstellt")
+    }
+})
 
 client.on('message', async (msg) => {
     if(msg.author.bot || !msg.guild) return;
@@ -374,4 +427,4 @@ client.on('message', message => {
 
       
 });
-client.login('ODQ5MzYzMDE5NDA5MzkxNjY4.YLaE9A.siI-KpPItWd4hVVYURToNepB2G4')
+client.login('ODQ5MzYzMDE5NDA5MzkxNjY4.YLaE9A.oq3AFxexpyMexBaMmVwb6f2Kw_4')
