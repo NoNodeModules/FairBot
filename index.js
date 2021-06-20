@@ -7,7 +7,6 @@ const fs = require('fs')
 const reactionRolesConfig = JSON.parse(fs.readFileSync('reactionroles.json' , 'utf8'))
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 const welcomechannelId = `853727010748629032` //Channel You Want to Send The Welcome Message
-const targetChannelId = `841228384058212413` //Channel For Rules
 
 const messages = ['!help' , 'FairShop' , 'Coded by Jay'];
 let current = 1;
@@ -184,7 +183,6 @@ client.on('message', async (msg) => {
         uptime: uptimecommand,
         kick: kickcommand,
         ban: bancommand,
-        say: saycommand,
         clear,
         
 
@@ -216,18 +214,6 @@ function helpcommand (message, args) {
     .addField('Brauchst du bei sonst etwas **Hilfe?**', 'Wende dich an den **Owner** oder **das Team**')
     .setFooter('Coded by Jay 🔥')
     channel.send(embed);
-
-}
-
-function saycommand (message, args) {
-    const messageToSay = args.join(" ");
-    const sayEmbed = new Discord.MessageEmbed()
-    .setAuthor(message.author.tag, message.author.displayAvatarURL({ dyanmic: true }))
-    .setDescription(`${messageToSay}`)
-    .setTimestamp()
-    .setColor('#7852FF')
-
-message.channel.send(sayEmbed)
 
 }
 
@@ -427,4 +413,4 @@ client.on('message', message => {
 
       
 });
-client.login('ODQ5MzYzMDE5NDA5MzkxNjY4.YLaE9A.oq3AFxexpyMexBaMmVwb6f2Kw_4')
+client.login('ODQ5MzYzMDE5NDA5MzkxNjY4.YLaE9A.eOduc5AYQ044kuScADpSnCgrAyc')
