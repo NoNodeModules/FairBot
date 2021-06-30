@@ -168,7 +168,6 @@ client.on('message', async (msg) => {
       .setDescription('Bitte reagiere mit 🔔 um den AGB´s zuzustimmen und um die kostenlose Pre Version herunterladen zu können.');
       var message = await msg.channel.send(embed)
       message.react(emoji)
-      message.react.remove(user)
       var toSave = {message: message.id, emoji: emoji,role: roleid}
       reactionRolesConfig.reactions.push(toSave);
       let data = JSON.stringify(reactionRolesConfig);
