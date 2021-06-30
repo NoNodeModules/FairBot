@@ -151,6 +151,31 @@ if(reaction.emoji.name === "❎"){
 }
 })
 
+client.on('message', async (msg) => {
+    if(msg.author.bot || !msg.guild) return;
+  if(msg.content.startsWith('!createReactionRole') && msg.member.hasPermission('ADMINISTRATOR')){
+    var args = msg.content.split(' ');
+    if(args.length == 3){
+      var emoji = args[1];
+      var roleid = args[2]
+      var role = msg.guild.roles.cache.get(roleid);
+      if(!role){
+        msg.reply('die rolle gibt es nicht')
+        return;
+      } 
+      var embed = new Discord.MessageEmbed()
+      .setTitle('AGB + Download ' + emoji)
+      .setDescription('Bitte reagiere mit 🔔 um den AGB´s zuzustimmen und um die kostenlose Pre Edition herunterladen zu können.');
+      var message = await msg.channel.send(embed)
+      message.react(emoji)
+      var toSave = {message: message.id, emoji: emoji,role: roleid}
+      reactionRolesConfig.reactions.push(toSave);
+      let data = JSON.stringify(reactionRolesConfig);
+      fs.writeFileSync('reactionroles.json', data);   
+    }
+}
+})
+
   
 client.on('message', async (msg) => {
     if(msg.author.bot || !msg.guild) return;
