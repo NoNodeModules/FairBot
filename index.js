@@ -171,7 +171,7 @@ client.on('message', async (msg) => {
       var toSave = {message: message.id, emoji: emoji,role: roleid}
       reactionRolesConfig.reactions.push(toSave);
       let data = JSON.stringify(reactionRolesConfig);
-      fs.writeFileSync('reactionroles.json', data);   
+      fs.writeFileSync('reactionroles1.json', data);   
     }
 }
 })
