@@ -1,10 +1,5 @@
-const { settings } = require('cluster');
 const { clear } = require('console');
 const Discord = require('discord.js');
-const { Player } = require("discord-player");
-const Player = new Player(client);
-client.player = Player;
-const { captureRejectionSymbol } = require('events');
 const prefix = '!'
 const fs = require('fs')
 const reactionRolesConfig = JSON.parse(fs.readFileSync('reactionroles.json' , 'utf8'))
@@ -359,32 +354,6 @@ function bancommand (message, args) {
     }
 
 }
-
-client.on("message", async message =>{
-    const args = message.content.slice(prefix.length).trim().split(/ + /g);
-
-    let parts = message.content.split(" ");
-    if(parts[0] == '!play') {
-        let track = await client.player.play(message.member.voice.channel, args[0], message.member.user.tag);
-        const embed = new Discord.MessageEmbed()
-        channel.send("Stopped")
-        /*.setColor('#7852FF')
-        .setAuthor('Musik')
-        .addField(`Spielt - ${track.name}! - Angefragt von ${track.requestedby}`)
-        .setFooter('Coded by Jay 🔥')
-        channel.send(embed);*/
-    }
-    if(parts[0] == '!stop') {
-        let track = await client.player.stop(message.guild.id);
-        channel.send("Stopped")
-        /*const embed = new Discord.MessageEmbed()
-        .setColor('#7852FF')
-        .setAuthor('Musik')
-        .addField(`Musik wurde gestoppt!`)
-        .setFooter('Coded by Jay 🔥')
-        channel.send(embed);*/
-    }
-})
 
 client.on('message', message => {
 
