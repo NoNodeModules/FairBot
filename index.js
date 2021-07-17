@@ -3,7 +3,7 @@ const { clear } = require('console');
 const Discord = require('discord.js');
 const { Player } = require("discord-player");
 const Player = new Player(client);
-client.player = player;
+client.player = Player;
 const { captureRejectionSymbol } = require('events');
 const prefix = '!'
 const fs = require('fs')
@@ -362,26 +362,27 @@ function bancommand (message, args) {
 
 client.on("message", async message =>{
     const args = message.content.slice(prefix.length).trim().split(/ + /g);
-    const commanf = args.shift.toLowerCase();
 
     let parts = message.content.split(" ");
     if(parts[0] == '!play') {
-        let track = await client.play(message.member.voice.channel, args[0], message.member.user.tag);
+        let track = await client.player.play(message.member.voice.channel, args[0], message.member.user.tag);
         const embed = new Discord.MessageEmbed()
-        .setColor('#7852FF')
+        channel.send("Stopped")
+        /*.setColor('#7852FF')
         .setAuthor('Musik')
         .addField(`Spielt - ${track.name}! - Angefragt von ${track.requestedby}`)
         .setFooter('Coded by Jay 🔥')
-        channel.send(embed);
+        channel.send(embed);*/
     }
     if(parts[0] == '!stop') {
         let track = await client.player.stop(message.guild.id);
-        const embed = new Discord.MessageEmbed()
+        channel.send("Stopped")
+        /*const embed = new Discord.MessageEmbed()
         .setColor('#7852FF')
         .setAuthor('Musik')
         .addField(`Musik wurde gestoppt!`)
         .setFooter('Coded by Jay 🔥')
-        channel.send(embed);
+        channel.send(embed);*/
     }
 })
 
@@ -465,4 +466,4 @@ client.on('message', message => {
 
       
 });
-client.login('ODQ5MzYzMDE5NDA5MzkxNjY4.YLaE9A.eOduc5AYQ044kuScADpSnCgrAyc')
+client.login('ODQ5MzYzMDE5NDA5MzkxNjY4.YLaE9A.tEyI4thxNT2M4R5l4G8UX4rSNLU')
