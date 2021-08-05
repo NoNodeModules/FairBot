@@ -70,13 +70,13 @@ client.on("messageReactionAdd", async (reaction, user) => {
     }
   })
 
-  client.on('messageReactionAdd', async (reaction, user) =>{
+  client.on('messageReactionAdd', async (reaction, user, member) =>{
     if(reaction.message.partial) await reaction.message.fetch();
     if(reaction.partial) await reaction.fetch();
     if(user.bot) return;
     if(!reaction.message.guild) return;
         
-        if(reaction.emoji.name === "📩"){
+        if(reaction.emoji.name === "🔵"){
             reaction.users.remove(user);
 
             reaction.message.guild.channels.create(`ticket ${user.username.substr(0,18)}`, {
@@ -91,8 +91,41 @@ client.on("messageReactionAdd", async (reaction, user) => {
             .then(ch => {
                 const embed = new Discord.MessageEmbed()
                 .setColor('#7852FF')
-                .setAuthor('Support')
-                .addField('» Der Support wird sich in Kürze bei Ihnen melden', 'Bitte haben sie etwas geduld!')
+                .setAuthor(`Support, ${user.username}`)
+                .addField('» Der Support wird sich in Kürze bei Ihnen melden, bitte schreiben sie ihre Frge direkt in den Chat. Die Leitung wird gleich für sie da sein, wir bitten um ihr Verständnis dafür, dass wir nicht jedes Anleigen direkt bearbeiten können.', 'Bitte haben sie etwas geduld!')
+                .addField('Grund :' , 'Generelle Frage')
+                .setFooter('Coded by Jay 🔥')
+                ch.send(embed).then(msg => msg.react('🔒'))
+            })
+        }
+    }
+) 
+
+  client.on('messageReactionAdd', async (reaction, user, member) =>{
+    if(reaction.message.partial) await reaction.message.fetch();
+    if(reaction.partial) await reaction.fetch();
+    if(user.bot) return;
+    if(!reaction.message.guild) return;
+        
+        if(reaction.emoji.name === "🟢"){
+            reaction.users.remove(user);
+            
+
+            reaction.message.guild.channels.create(`ticket ${user.username.substr(0,18)}`, {
+                type: "text",
+                parent: "852675454087069717",
+                topic: `Ticket von ${user.tag}, wenn du das Ticket schließen möchtest reagiere mit 🔒`,
+                permissionOverwrites: [
+                { id: user.id, allow: ["SEND_MESSAGES", "VIEW_CHANNEL"], },
+                { id: reaction.message.guild.roles.everyone, deny: ['VIEW_CHANNEL'], },
+            ]
+            })
+            .then(ch => {
+                const embed = new Discord.MessageEmbed()
+                .setColor('#7852FF')
+                .setAuthor(`Support, ${user.username}`)
+                .addField('» Der Support wird sich in Kürze bei Ihnen melden, bitte schreiben sie ihre Frge direkt in den Chat. Die Leitung wird gleich für sie da sein, wir bitten um ihr Verständnis dafür, dass wir nicht jedes Anleigen direkt bearbeiten können.', 'Bitte haben sie etwas geduld!')
+                .addField('Grund :' , 'Frage zu FairShop')
                 .setFooter('Coded by Jay 🔥')
                 ch.send(embed).then(msg => msg.react('🔒'))
             })
@@ -116,7 +149,7 @@ client.on('messageReactionAdd', async (reaction, user)=> {
         }
 })
 
-client.on('messageReactionAdd', async (reaction, user, message)=> {
+client.on('messageReactionAdd', async (reaction, user)=> {
 if(reaction.message.partial) await reaction.message.fetch();
 if(reaction.partial) await reaction.fetch();
 if(user.bot) return;
@@ -146,31 +179,6 @@ if(reaction.emoji.name === "❎"){
     
     reaction.message.reactions.cache.get(`✅`).remove()
     reaction.message.reactions.cache.get(`❎`).remove()
-}
-})
-
-client.on('message', async (msg) => {
-    if(msg.author.bot || !msg.guild) return;
-  if(msg.content.startsWith('!createReactionRole') && msg.member.hasPermission('ADMINISTRATOR')){
-    var args = msg.content.split(' ');
-    if(args.length == 3){
-      var emoji = args[1];
-      var roleid = args[2]
-      var role = msg.guild.roles.cache.get(roleid);
-      if(!role){
-        msg.reply('die rolle gibt es nicht')
-        return;
-      } 
-      var embed = new Discord.MessageEmbed()
-      .setTitle('AGB + Download ' + emoji)
-      .setDescription('Bitte reagiere mit 🔔 um den AGB´s zuzustimmen und um die kostenlose Pre Version herunterladen zu können.');
-      var message = await msg.channel.send(embed)
-      message.react(emoji)
-      var toSave = {message: message.id, emoji: emoji,role: roleid}
-      reactionRolesConfig.reactions.push(toSave);
-      let data = JSON.stringify(reactionRolesConfig);
-      fs.writeFileSync('reactionroles1.json', data);   
-    }
 }
 })
 
@@ -244,22 +252,25 @@ function helpcommand (message, args) {
         let parts = message.content.split(" ");
         if(parts[0] == '!ticketsetup') {
         let channel = message.mentions.channels.first();
-        if(!channel) return message.reply("Nutze | !ticket-setup #channel");
+        if(!channel) return message.reply("Nutze | !ticketsetup #channel");
 
         let sent = await channel.send(new Discord.MessageEmbed()
         .setColor('#7852FF')
         .setAuthor('Support')
-        .addField(` Reagiere mit 📩 Um ein Ticket zuöffnen`, 'Coded by Jay 🔥')
+        .addField(`Du brauchst Support? Kein Problem! Wähle einfach eines der Symbole aus, deren Beschreibung am ehesten auf dein Anliegen zutrifft und reagiere mit ihm auf diese Nachricht.`)
+        .addField(`🔵 | Generelle Fragen`, `Z.B. Fragen zu Discord/ FairShop, unseren Bots, Rängen, ... und sontigem`)
+        .addField(`🟢 | Fragen zu FairShop`, `Z.B. Fragen zu FairShop, Beschwerden, Probleme, Fehler, ... und sonstiges`)
+        .setFooter('Coded by Jay 🔥')
         );
 
-        sent.react('📩');
-
+        sent.react('🔵');
+        sent.react('🟢');
         message.channel.send("Ticket erstellt")
     }
 })
 
 client.on('message', async (msg) => {
-    if(msg.author.bot || !msg.guild) return;
+  if(msg.author.bot || !msg.guild) return;
   if(msg.content.startsWith('!tlog') && msg.member.hasPermission('ADMINISTRATOR')){
     var args = msg.content.split(' ');
     if(args.length == 3){
@@ -281,7 +292,7 @@ client.on('message', async (msg) => {
 
 client.on('message', async (msg) => {
     if(msg.author.bot || !msg.guild) return;
-  if(msg.content.startsWith('!remove') && msg.member.hasPermission('ADMINISTRATOR')){
+  if(msg.content.startsWith('!tremove') && msg.member.hasPermission('ADMINISTRATOR')){
     var args = msg.content.split(' ');
     if(args.length == 3){
       var member = args[1];
@@ -435,4 +446,4 @@ client.on('message', message => {
 
       
 });
-client.login('ODQ5MzYzMDE5NDA5MzkxNjY4.YLaE9A.tEyI4thxNT2M4R5l4G8UX4rSNLU')
+client.login('ODQ5MzYzMDE5NDA5MzkxNjY4.YLaE9A.F0N55Bz6xRAHnMVSY0MT2ox02Zc')
