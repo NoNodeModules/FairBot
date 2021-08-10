@@ -214,6 +214,7 @@ client.on('message', async (msg) => {
         uptime: uptimecommand,
         kick: kickcommand,
         ban: bancommand,
+        status: statuscommand,
         clear,
         
 
@@ -230,6 +231,7 @@ function listcommand (message, args) {
     .addField('» !help |', 'Zeigt dir eine Hilfe an')
     .addField('» !list |', 'Zeigt dir alle Befehle an')
     .addField('» !info |', 'Zeigt dir Infos über Spieler an')
+    .addField('» !status |', 'Zeigt dir den Status über FairShop an')
     .addField('» !uptime |', 'Zeigt dir die Zeit, wielange der Bot schon online ist, an')
     .setFooter('Coded by Jay 🔥')
     channel.send(embed);
@@ -243,6 +245,18 @@ function helpcommand (message, args) {
     .addField('Brauchst du Hilfe?', 'Erstelle ein Ticket in **#➥📝support**')
     .addField('Willst du dem **Owner** eine FA schicken?', `Hier der Name: **${message.guild.owner.user.tag}**`)
     .addField('Brauchst du bei sonst etwas **Hilfe?**', 'Wende dich an den **Owner** oder **das Team**')
+    .setFooter('Coded by Jay 🔥')
+    channel.send(embed);
+
+}
+
+function statuscommand (message, args) {
+    const channel = message.channel
+    const embed = new Discord.MessageEmbed()
+    .setColor('#7852FF')
+    .setAuthor('Status')
+    .addField('**FairShop**', 'Offline')
+    .addField('**Verkäufe**', '239')
     .setFooter('Coded by Jay 🔥')
     channel.send(embed);
 
