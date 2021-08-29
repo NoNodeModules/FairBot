@@ -124,7 +124,7 @@ client.on("messageReactionAdd", async (reaction, user) => {
                 const embed = new Discord.MessageEmbed()
                 .setColor('#7852FF')
                 .setAuthor(`Support, ${user.username}`)
-                .addField('» Der Support wird sich in Kürze bei Ihnen melden, bitte schreiben sie ihre Frge direkt in den Chat. Die Leitung wird gleich für sie da sein, wir bitten um ihr Verständnis dafür, dass wir nicht jedes Anleigen direkt bearbeiten können.', 'Bitte haben sie etwas geduld!')
+                .addField('» Der Support wird sich in Kürze bei Ihnen melden, bitte schreiben sie ihre Frage direkt in den Chat. Die Leitung wird gleich für sie da sein, wir bitten um ihr Verständnis dafür, dass wir nicht jedes Anleigen direkt bearbeiten können.', 'Bitte haben sie etwas geduld!')
                 .addField('Grund :' , 'Frage zu FairShop')
                 .setFooter('Coded by Jay 🔥')
                 ch.send(embed).then(msg => msg.react('🔒'))
@@ -208,6 +208,7 @@ client.on('message', async (msg) => {
 }
 })
 
+
     var cmdmap = {
         help: helpcommand,
         list: listcommand,
@@ -215,6 +216,10 @@ client.on('message', async (msg) => {
         kick: kickcommand,
         ban: bancommand,
         status: statuscommand,
+        giveaway: giveawaycommand,
+        tlog: tlogcommand,
+        tremove: tremovecommand,
+        ticketsetup: ticketsetupcommand,
         clear,
         
 
@@ -222,6 +227,16 @@ client.on('message', async (msg) => {
     
         
     }
+function giveawaycommand () {
+}
+function tlogcommand () {
+}
+function tremovecommand () {
+}
+function ticketsetupcommand () {
+}
+function statuscommand () {
+}
 
 function listcommand (message, args) {
     const channel = message.channel
@@ -250,13 +265,14 @@ function helpcommand (message, args) {
 
 }
 
-function statuscommand (message, args) {
+function mutecommand (message, args) {
     const channel = message.channel
     const embed = new Discord.MessageEmbed()
     .setColor('#7852FF')
-    .setAuthor('Status')
-    .addField('**FairShop**', 'Offline')
-    .addField('**Verkäufe**', '239')
+    .setAuthor('Hilfe')
+    .addField('Brauchst du Hilfe?', 'Erstelle ein Ticket in **#➥📝support**')
+    .addField('Willst du dem **Owner** eine FA schicken?', `Hier der Name: **${message.guild.owner.user.tag}**`)
+    .addField('Brauchst du bei sonst etwas **Hilfe?**', 'Wende dich an den **Owner** oder **das Team**')
     .setFooter('Coded by Jay 🔥')
     channel.send(embed);
 
@@ -298,7 +314,7 @@ client.on('message', async (msg) => {
       var embed = new Discord.MessageEmbed()
       .setColor('#7852FF')
       .setTitle('Team-Changelog')
-      .setDescription(member + " ist dem Team als " + `<@&${role.id}>` + "beigetreten!");
+      .setDescription(member + " ist dem Team als " + `<@&${role.id}>` + " beigetreten!");
       var message = await msg.channel.send(embed)  
     }
 }
@@ -319,11 +335,12 @@ client.on('message', async (msg) => {
       var embed = new Discord.MessageEmbed()
       .setColor('#7852FF')
       .setTitle('Team-Changelog')
-      .setDescription(member + " hat das Team als " + `<@&${role.id}>` + "verlassen!");
+      .setDescription(member + " hat das Team als " + `<@&${role.id}>` + " verlassen!");
       var message = await msg.channel.send(embed)  
     }
 }
 })
+
 
 
 function uptimecommand (message, args) {
@@ -342,20 +359,27 @@ function uptimecommand (message, args) {
 
 function kickcommand (message, args) {
     if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send('Du brauchst die Berechtigung, um zu Kicken!')
-    const channel = message.channel
-    const member = message.mentions.users.first();
-    const usr = message.mentions.users.first() || message.author
-    if(member){
-        const memberTarger = message.guild.members.cache.get(member.id);
-        memberTarger.kick();
-        const embed = new Discord.MessageEmbed()
+    let toKick = message.mentions.members.first();
+    let reason = args.slice(1).join(" ");
+    if(!args[0]) return message.channel.send('Bitte gib ein Spieler an!');
+    if(!toKick) return message.channel.send(`${args[0]} ist kein Spieler`);
+    if(!reason) return message.channel.send(`Gib ein Grund an`);
+
+    if(!toKick.kickable){
+        return message.channel.send('Ich kann kein Admin kicken!')
+    }
+
+    if(toKick.kickable){
+        let x = new Discord.MessageEmbed()
         .setColor('#7852FF')
         .setAuthor('Kick')
-        .addField(`Der User **${usr.tag}** wurde gekickt`, 'Grund | kein Grund')
+        .addField(`Kick |`, toKick)
+        .addField(`von | `, message.author)
+        .addField(`Grund | `, reason)
+        .addField(`Datum | `, message.createdAt)
         .setFooter('Coded by Jay 🔥')
-        channel.send(embed);
-    } else{
-        message.channel.send('Du musst ein Spieler angeben!')
+        message.channel.send(x);
+        toKick.kick();
     }
 
 }
@@ -460,4 +484,4 @@ client.on('message', message => {
 
       
 });
-client.login('ODQ5MzYzMDE5NDA5MzkxNjY4.YLaE9A.0sGSjp63tjxPlptyy4Q4Qak4_XM')
+client.login('ODQ5MzYzMDE5NDA5MzkxNjY4.YLaE9A.2-d2nBYdo_GjFKkBsZovh3E-GLA')
